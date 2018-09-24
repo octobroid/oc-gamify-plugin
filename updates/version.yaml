@@ -1,1 +1,9 @@
-1.0.1: First version of Gamify
+1.0.1:
+    - Initialize Gamify plugin
+    - add_column_users_table.php
+    - create_point_logs_table.php
+    - create_levels_table.php
+    - create_level_logs_table.php
+    - create_missions_table.php
+    - create_achievements_table.php
+    - create_leader_board_logs_table.php

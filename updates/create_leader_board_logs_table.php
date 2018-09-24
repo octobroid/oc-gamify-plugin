@@ -11,6 +11,8 @@ class CreateLeaderBoardLogsTable extends Migration
         Schema::create('octobro_gamify_leader_board_logs', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->text('type');
+            $table->json('data');
             $table->timestamps();
         });
     }

@@ -11,6 +11,10 @@ class CreatePointLogsTable extends Migration
         Schema::create('octobro_gamify_point_logs', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->text('description');
+            $table->decimal('previous_amount');
+            $table->decimal('updated_amount');
             $table->timestamps();
         });
     }

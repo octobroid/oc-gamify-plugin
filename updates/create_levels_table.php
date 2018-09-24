@@ -11,6 +11,8 @@ class CreateLevelsTable extends Migration
         Schema::create('octobro_gamify_levels', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->text('name');
+            $table->decimal('min_points');
             $table->timestamps();
         });
     }
