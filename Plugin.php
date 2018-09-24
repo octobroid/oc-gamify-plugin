@@ -81,15 +81,33 @@ class Plugin extends PluginBase
      */
     public function registerNavigation()
     {
-        return []; // Remove this line to activate
-
         return [
             'gamify' => [
                 'label'       => 'Gamify',
-                'url'         => Backend::url('octobro/gamify/mycontroller'),
-                'icon'        => 'icon-leaf',
+                'url'         => Backend::url('octobro/gamify/leaderboardlog'),
+                'icon'        => 'icon-gamepad',
                 'permissions' => ['octobro.gamify.*'],
                 'order'       => 500,
+                'sideMenu' => [
+                    'leaderboard' => [
+                        'label'       => 'Leaderboard',
+                        'icon'        => 'icon-certificate',
+                        'url'         => Backend::url('octobro/gamify/leaderboardlog'),
+                        'permissions' => ['opentrip.tours.*']
+                    ],
+                    'levels' => [
+                        'label'       => 'Levels',
+                        'icon'        => 'icon-level-up',
+                        'url'         => Backend::url('octobro/gamify/levels'),
+                        'permissions' => ['opentrip.tours.*']
+                    ],
+                    'missions' => [
+                        'label'       => 'Missions',
+                        'icon'        => 'icon-check',
+                        'url'         => Backend::url('octobro/gamify/missions'),
+                        'permissions' => ['opentrip.tours.*']
+                    ],
+                ]
             ],
         ];
     }

@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Mission
+
+# Model Form Field configuration
+form: $/octobro/gamify/models/mission/fields.yaml
+
+# Model Class name
+modelClass: Octobro\Gamify\Models\Mission
+
+# Default redirect location
+defaultRedirect: octobro/gamify/missions
+
+# Create page
+create:
+    title: Create Mission
+    redirect: octobro/gamify/missions/update/:id
+    redirectClose: octobro/gamify/missions
+
+# Update page
+update:
+    title: Edit Mission
+    redirect: octobro/gamify/missions
+    redirectClose: octobro/gamify/missions
+
+# Preview page
+preview:
+    title: Preview Mission

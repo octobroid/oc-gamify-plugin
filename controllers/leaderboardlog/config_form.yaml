@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Leaderboard Log
+
+# Model Form Field configuration
+form: $/octobro/gamify/models/leaderboardlog/fields.yaml
+
+# Model Class name
+modelClass: Octobro\Gamify\Models\LeaderboardLog
+
+# Default redirect location
+defaultRedirect: octobro/gamify/leaderboardlog
+
+# Create page
+create:
+    title: Create Leaderboard Log
+    redirect: octobro/gamify/leaderboardlog/update/:id
+    redirectClose: octobro/gamify/leaderboardlog
+
+# Update page
+update:
+    title: Edit Leaderboard Log
+    redirect: octobro/gamify/leaderboardlog
+    redirectClose: octobro/gamify/leaderboardlog
+
+# Preview page
+preview:
+    title: Preview Leaderboard Log
