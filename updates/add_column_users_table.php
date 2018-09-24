@@ -8,12 +8,14 @@ class CreateUsersTable extends Migration
 {
     public function up()
     {
-        Schema::table('users', function(Blueprint $table) {
-            $table->decimal('points');
-            $table->timestamp('points_updated_at');
-            $table->integer('level_id')->unsigned();
-            $table->timestamp('level_updated_at');
-        });
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function(Blueprint $table) {
+                $table->decimal('points');
+                $table->timestamp('points_updated_at');
+                $table->integer('level_id')->unsigned();
+                $table->timestamp('level_updated_at');
+            });
+        }
     }
 
     public function down()
