@@ -6,3 +6,16 @@ columns:
     id:
         label: ID
         searchable: true
+    name:
+        label: Mission name
+        searchable: true
+    points:
+        label: Point
+    type:
+        label: Type
+        searchable: true
+    min_target:
+        label: Min. target
+        searchable: true
+    created_at:
+        label: Created at

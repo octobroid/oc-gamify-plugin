@@ -7,6 +7,15 @@ use Model;
  */
 class Mission extends Model
 {
+    use \October\Rain\Database\Traits\Validation;
+
+    public $rules = [
+        'name'                  => 'required|between:4,30',
+        'points'                => 'required|integer',
+        'class'                 => 'required',
+        'type'                  => 'required|string:daily|weekly|onetime',
+        'min_target'            => 'required'
+    ];
     /**
      * @var string The database table used by the model.
      */

@@ -3,6 +3,24 @@
 # ===================================
 
 fields:
-    id:
-        label: ID
-        disabled: true
+    name:
+        label: Name
+        type: text
+        span: auto
+    points:
+        label: Point
+        type: number
+        span: auto
+    type:
+        label: Type
+        type: text
+        span: auto
+    min_target:
+        label: Min. target
+        type: number
+        span: auto
+    class:
+        label: Class
+        type: text
+        span: auto
+

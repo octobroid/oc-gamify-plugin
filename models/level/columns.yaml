@@ -6,3 +6,11 @@ columns:
     id:
         label: ID
         searchable: true
+    name:
+        label: Name
+        searchable: true
+    min_points:
+        label: Min. point
+        searchable: true
+    created_at:
+        label: Created at

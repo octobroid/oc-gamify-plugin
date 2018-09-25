@@ -3,6 +3,11 @@
 # ===================================
 
 fields:
-    id:
-        label: ID
-        disabled: true
+    name:
+        label: Name
+        type: text
+        span: auto
+    min_points:
+        label: Min. point
+        type: number
+        span: auto

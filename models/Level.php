@@ -7,6 +7,12 @@ use Model;
  */
 class Level extends Model
 {
+    use \October\Rain\Database\Traits\Validation;
+
+    public $rules = [
+        'name'                  => 'required|between:4,30',
+        'min_points'            => 'required|integer'
+    ];
     /**
      * @var string The database table used by the model.
      */
