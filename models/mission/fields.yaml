@@ -8,15 +8,15 @@ fields:
         type: text
         span: auto
     points:
-        label: Point
+        label: Points
         type: number
         span: auto
     type:
         label: Type
         type: text
         span: auto
-    min_target:
-        label: Min. target
+    target:
+        label: Target
         type: number
         span: auto
     class:

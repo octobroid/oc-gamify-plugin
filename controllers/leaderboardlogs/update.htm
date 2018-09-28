@@ -1,6 +1,6 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
-        <li><a href="<?= Backend::url('octobro/gamify/leaderboardlog') ?>">Leaderboard Log</a></li>
+        <li><a href="<?= Backend::url('octobro/gamify/leaderboardlogs') ?>">Leaderboard Logs</a></li>
         <li><?= e($this->pageTitle) ?></li>
     </ul>
 <?php Block::endPut() ?>
@@ -18,22 +18,30 @@
                 <button
                     type="submit"
                     data-request="onSave"
+                    data-request-data="redirect:0"
                     data-hotkey="ctrl+s, cmd+s"
-                    data-load-indicator="Creating LeaderboardLog..."
+                    data-load-indicator="Saving LeaderboardLog..."
                     class="btn btn-primary">
-                    Create
+                    <u>S</u>ave
                 </button>
                 <button
                     type="button"
                     data-request="onSave"
                     data-request-data="close:1"
                     data-hotkey="ctrl+enter, cmd+enter"
-                    data-load-indicator="Creating LeaderboardLog..."
+                    data-load-indicator="Saving LeaderboardLog..."
                     class="btn btn-default">
-                    Create and Close
+                    Save and Close
+                </button>
+                <button
+                    type="button"
+                    class="oc-icon-trash-o btn-icon danger pull-right"
+                    data-request="onDelete"
+                    data-load-indicator="Deleting LeaderboardLog..."
+                    data-request-confirm="Delete this leaderboardlog?">
                 </button>
                 <span class="btn-text">
-                    or <a href="<?= Backend::url('octobro/gamify/leaderboardlog') ?>">Cancel</a>
+                    or <a href="<?= Backend::url('octobro/gamify/leaderboardlogs') ?>">Cancel</a>
                 </span>
             </div>
         </div>
@@ -43,6 +51,6 @@
 <?php else: ?>
 
     <p class="flash-message static error"><?= e($this->fatalError) ?></p>
-    <p><a href="<?= Backend::url('octobro/gamify/leaderboardlog') ?>" class="btn btn-default">Return to leaderboard log list</a></p>
+    <p><a href="<?= Backend::url('octobro/gamify/leaderboardlogs') ?>" class="btn btn-default">Return to leaderboard logs list</a></p>
 
 <?php endif ?>

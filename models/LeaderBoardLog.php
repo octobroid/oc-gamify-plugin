@@ -3,14 +3,14 @@
 use Model;
 
 /**
- * LeaderBoardLog Model
+ * LeaderboardLog Model
  */
-class LeaderBoardLog extends Model
+class LeaderboardLog extends Model
 {
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'octobro_gamify_leader_board_logs';
+    public $table = 'octobro_gamify_leaderboard_logs';
 
     /**
      * @var array Guarded fields

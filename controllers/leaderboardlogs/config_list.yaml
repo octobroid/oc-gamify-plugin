@@ -12,7 +12,7 @@ modelClass: Octobro\Gamify\Models\LeaderboardLog
 title: Manage Leaderboard Logs
 
 # Link URL for each record
-recordUrl: octobro/gamify/leaderboardlog/update/:id
+recordUrl: octobro/gamify/leaderboardlogs/update/:id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records

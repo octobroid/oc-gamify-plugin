@@ -4,9 +4,9 @@ use BackendMenu;
 use Backend\Classes\Controller;
 
 /**
- * Leaderboard Log Back-end Controller
+ * Leaderboard Logs Back-end Controller
  */
-class LeaderboardLog extends Controller
+class LeaderboardLogs extends Controller
 {
     public $implement = [
         'Backend.Behaviors.FormController',
@@ -20,6 +20,6 @@ class LeaderboardLog extends Controller
     {
         parent::__construct();
 
-        BackendMenu::setContext('Octobro.Gamify', 'gamify', 'leaderboardlog');
+        BackendMenu::setContext('Octobro.Gamify', 'gamify', 'leaderboardlogs');
     }
 }

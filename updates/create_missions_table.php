@@ -11,11 +11,14 @@ class CreateMissionsTable extends Migration
         Schema::create('octobro_gamify_missions', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->text('name');
-            $table->decimal('points');
-            $table->text('class');
-            $table->text('type');
-            $table->decimal('min_target');
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->unsignedInteger('points')->default(0);
+            $table->boolean('is_auto_detect')->default(0);
+            $table->string('class')->nullable();
+            $table->string('type')->nullable(); // daily, weekly, one-time, always
+            $table->unsignedInteger('target')->default(1);
+            $table->boolean('is_auto_collect')->default(0);
             $table->timestamps();
         });
     }

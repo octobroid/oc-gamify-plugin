@@ -27,11 +27,26 @@ class Achievement extends Model
      */
     public $hasOne = [];
     public $hasMany = [];
-    public $belongsTo = [];
+    public $belongsTo = [
+        'user'    => 'RainLab\User\Models\User',
+        'mission' => 'Octobro\Gamify\Models\Mission',
+    ];
     public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
+    public function collect()
+    {
+        $this->is_collected = true;
+        
+        $this->save();
+
+        // $this->user->points += $this;
+        // Update points
+
+        // Fire event
+    }
 }

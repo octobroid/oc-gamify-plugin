@@ -43,4 +43,13 @@ class Mission extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
+    public function achieve($user, $amount = 1)
+    {
+        // Create achievement
+
+        // Update points
+
+        // Fire event
+    }
 }

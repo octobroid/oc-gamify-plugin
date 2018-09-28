@@ -11,9 +11,9 @@ class CreateLevelLogsTable extends Migration
         Schema::create('octobro_gamify_level_logs', function(Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('previous_level_id');
-            $table->integer('updated_level_id');
+            $table->integer('user_id')->unsigned()->index();
+            $table->integer('previous_level_id')->unsigned()->index();
+            $table->integer('updated_level_id')->unsigned()->index();
             $table->timestamps();
         });
     }

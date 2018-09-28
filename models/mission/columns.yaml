@@ -7,15 +7,15 @@ columns:
         label: ID
         searchable: true
     name:
-        label: Mission name
+        label: Name
         searchable: true
     points:
-        label: Point
+        label: Points
     type:
         label: Type
         searchable: true
-    min_target:
-        label: Min. target
+    target:
+        label: target
         searchable: true
     created_at:
         label: Created at

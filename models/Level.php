@@ -33,7 +33,9 @@ class Level extends Model
      */
     public $hasOne = [];
     public $hasMany = [];
-    public $belongsTo = [];
+    public $belongsTo = [
+        'next_level' => 'Octobro\Gamify\Models\Level',
+    ];
     public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];

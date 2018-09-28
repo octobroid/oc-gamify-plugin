@@ -27,11 +27,21 @@ class PointLog extends Model
      */
     public $hasOne = [];
     public $hasMany = [];
-    public $belongsTo = [];
+    public $belongsTo = [
+        'user' => 'RainLab\User\Models\User',
+    ];
     public $belongsToMany = [];
-    public $morphTo = [];
+    public $morphTo = [
+        'related' => [],
+    ];
     public $morphOne = [];
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
+    public function beforeCreate()
+    {
+        $this->previous_amount = 0;
+        $this->updated_amount = $this->previous_amount + $this->amount;
+    }
 }

@@ -10,10 +10,12 @@ class CreateUsersTable extends Migration
     {
         if (Schema::hasTable('users')) {
             Schema::table('users', function(Blueprint $table) {
-                $table->decimal('points');
-                $table->timestamp('points_updated_at');
-                $table->integer('level_id')->unsigned();
-                $table->timestamp('level_updated_at');
+                $table->unsignedInteger('points')->default(0);
+                $table->unsignedInteger('spendable_points')->default(0);
+                $table->timestamp('points_updated_at')->nullable();
+                $table->timestamp('spendable_points_updated_at')->nullable();
+                $table->integer('level_id')->unsigned()->nullable()->index();
+                $table->timestamp('level_updated_at')->nullable();
             });
         }
     }
@@ -22,7 +24,9 @@ class CreateUsersTable extends Migration
     {
         Schema::table('users', function(Blueprint $table) {
             $table->dropColumn('points');
+            $table->dropColumn('spendable_points');
             $table->dropColumn('points_updated_at');
+            $table->dropColumn('spendable_points_updated_at');
             $table->dropColumn('level_id');
             $table->dropColumn('level_updated_at');
         });
