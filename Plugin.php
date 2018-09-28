@@ -48,7 +48,7 @@ class Plugin extends PluginBase
         return [
             'gamify' => [
                 'label'       => 'Gamify',
-                'url'         => Backend::url('octobro/gamify/leaderboardlog'),
+                'url'         => Backend::url('octobro/gamify/leaderboardlogs'),
                 'icon'        => 'icon-gamepad',
                 'permissions' => ['octobro.gamify.*'],
                 'order'       => 500,
@@ -56,20 +56,20 @@ class Plugin extends PluginBase
                     'leaderboard' => [
                         'label'       => 'Leaderboard',
                         'icon'        => 'icon-certificate',
-                        'url'         => Backend::url('octobro/gamify/leaderboardlog'),
-                        'permissions' => ['opentrip.tours.*']
+                        'url'         => Backend::url('octobro/gamify/leaderboardlogs'),
+                        'permissions' => ['octobro.gamify.*']
                     ],
                     'levels' => [
                         'label'       => 'Levels',
                         'icon'        => 'icon-level-up',
                         'url'         => Backend::url('octobro/gamify/levels'),
-                        'permissions' => ['opentrip.tours.*']
+                        'permissions' => ['octobro.gamify.*']
                     ],
                     'missions' => [
                         'label'       => 'Missions',
                         'icon'        => 'icon-check',
                         'url'         => Backend::url('octobro/gamify/missions'),
-                        'permissions' => ['opentrip.tours.*']
+                        'permissions' => ['octobro.gamify.*']
                     ],
                 ]
             ],

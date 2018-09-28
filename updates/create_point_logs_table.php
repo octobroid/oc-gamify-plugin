@@ -16,7 +16,7 @@ class CreatePointLogsTable extends Migration
             $table->integer('amount');
             $table->unsignedInteger('previous_amount');
             $table->unsignedInteger('updated_amount');
-            $table->morphs('related')->nullable();
+            $table->nullableMorphs('related');
             $table->timestamps();
         });
     }
