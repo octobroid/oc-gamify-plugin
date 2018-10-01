@@ -53,7 +53,7 @@ class Plugin extends PluginBase
                 'permissions' => ['octobro.gamify.*'],
                 'order'       => 500,
                 'sideMenu' => [
-                    'leaderboard' => [
+                    'leaderboardlogs' => [
                         'label'       => 'Leaderboard',
                         'icon'        => 'icon-certificate',
                         'url'         => Backend::url('octobro/gamify/leaderboardlogs'),
