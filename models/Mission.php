@@ -1,6 +1,7 @@
 <?php namespace Octobro\Gamify\Models;
 
 use Model;
+use Octobro\Gamify\Models\Achievement;
 
 /**
  * Mission Model
@@ -44,12 +45,27 @@ class Mission extends Model
     public $attachOne = [];
     public $attachMany = [];
 
-    public function achieve($user, $amount = 1)
+    public static function achieve($user, $mission)
     {
-        // Create achievement
+        // Create/update mission progress
+        $data = Achievement::where('user_id', $user->id)->where('mission_id', $mission->id)->where('mission_date', date('Y-m-d'))->first();
 
-        // Update points
-
-        // Fire event
+        if ($data) {
+            if ($data->achieved_count < $mission->target) {
+                Achievement::find($data->id)->update([
+                    'achieved_count' => (int) $data->achieved_count + 1
+                ]);
+            }
+        } else {
+            $achievement = new Achievement();
+            $achievement->user_id = $user->id;
+            $achievement->mission_id = $mission->id;
+            $achievement->mission_type = $mission->type;
+            $achievement->mission_date = date('Y-m-d');
+            $achievement->achieved_count = 1;
+            $achievement->is_achieved = false;
+            $achievement->is_collected = false;
+            $achievement->save();
+        }
     }
 }
