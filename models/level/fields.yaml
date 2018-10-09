@@ -11,3 +11,9 @@ fields:
         label: Min. point
         type: number
         span: auto
+    icon:
+        label: Icon
+        type: fileupload
+        mode: image
+        imageHeight: 500
+        imageWidth: 500
