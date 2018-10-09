@@ -41,7 +41,7 @@ class PointLog extends Model
 
     public function beforeCreate()
     {
-        $this->previous_amount = 0;
+        $this->previous_amount = $this->user->points;
         $this->updated_amount = $this->previous_amount + $this->amount;
     }
 }
