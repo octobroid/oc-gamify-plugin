@@ -19,6 +19,13 @@ class GamifyUser extends ExtensionBase
     {
         $this->model = $model;
 
+        $model->addFillable([
+            'points',
+            'spendable_points',
+            'points_updated_at',
+            'spendable_points_updated_at'
+        ]);
+
         $model->belongsTo['level'] = 'Octobro\Gamify\Models\Level';
         $model->hasMany['achievements'] = 'Octobro\Gamify\Models\Achievement';
         $model->hasMany['level_logs'] = 'Octobro\Gamify\Models\LevelLog';
