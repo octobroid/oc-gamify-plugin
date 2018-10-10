@@ -13,7 +13,11 @@ fields:
         span: auto
     type:
         label: Type
-        type: text
+        type: dropdown
+        options:
+            daily: Daily
+            weekly: Weekly
+            one_time: One time
         span: auto
     target:
         label: Target
