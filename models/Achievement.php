@@ -1,9 +1,11 @@
 <?php namespace Octobro\Gamify\Models;
 
 use Model;
+use Carbon\Carbon;
 use RainLab\User\Models\User;
 use Octobro\Gamify\Models\PointLog;
 use Octobro\Gamify\Models\LevelLog;
+use Octobro\Gamify\Models\Level;
 
 /**
  * Achievement Model
@@ -58,12 +60,33 @@ class Achievement extends Model
         }
     }
 
+    public static function getDailyMissionData($userId, $missionId) {
+        return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'daily')->where('is_achieved', true)->where('mission_date', date('Y-m-d'));
+    }
+
+    public static function getWeeklyMissionData($userId, $missionId, $startDate, $endDate) {
+        return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'weekly')->where('is_achieved', true)->whereBetween('mission_date', [$startDate, $endDate]);
+    }
+
+    public static function getOneTimeMissionData($userId, $missionId) {
+        return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'one_time');
+    }
+
     public static function collect($user, $mission)
     {
+        $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
+        $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
+
         // Collect point
-        $achievement = Achievement::where('user_id', $user->id)->where('mission_id', $mission->id)
-        ->where('mission_date', date('Y-m-d'))
-        ->update([
+        if ($mission->type == 'daily') {
+            $achievement = self::getDailyMissionData($user->id, $mission->id);
+        } else if ($mission->type == 'weekly') {
+            $achievement = self::getWeeklyMissionData($user->id, $mission->id, $startDate, $endDate);
+        } else {
+            $achievement = self::getOneTimeMissionData($user->id, $mission->id);
+        }
+
+        $achievement->update([
             'is_collected' => true
         ]);
 
@@ -72,7 +95,7 @@ class Achievement extends Model
         $pointLog->user_id = $user->id;
         $pointLog->description = $mission->name;
         $pointLog->amount = $mission->points;
-        $pointLog->related = $achievement;
+        $pointLog->related = $mission;
         $pointLog->save();
 
         // Update points to user
@@ -81,5 +104,9 @@ class Achievement extends Model
             'spendable_points' => (int) ($user->spendable_points + $mission->points),
             'points_updated_at' => date('Y-m-d H:i:s'),
         ]);
+
+        // Reset leaderboard
+        PointLog::setWeeklyLeaderboard();
+        PointLog::setMonthlyLeaderboard();
     }
 }
