@@ -48,7 +48,13 @@ class Mission extends Model
     public static function achieve($user, $mission)
     {
         // Create/update mission progress
-        $data = Achievement::where('user_id', $user->id)->where('mission_id', $mission->id)->where('mission_date', date('Y-m-d'))->first();
+        if ($mission->type == 'daily') {
+            $data = Achievement::getDailyMissionData($user->id, $mission->id)->first();
+        } else if ($mission->type == 'weekly') {
+            $data = Achievement::getWeeklyMissionData($user->id, $mission->id)->first();
+        } else {
+            $data = Achievement::getOneTimeMissionData($user->id, $mission->id)->first();
+        }
 
         if ($data) {
             if ($data->achieved_count < $mission->target) {
