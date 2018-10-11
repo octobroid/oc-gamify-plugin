@@ -20,7 +20,12 @@ class LeaderboardLog extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = ['type', 'date', 'data'];
+
+    /**
+     * @var array Jsoanble fields
+     */
+    protected $jsonable = ['data'];
 
     /**
      * @var array Relations
