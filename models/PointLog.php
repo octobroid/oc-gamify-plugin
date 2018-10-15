@@ -55,6 +55,7 @@ class PointLog extends Model
             array_push($dataArray, [
                 'rank' => $count,
                 'name' => $log->user->name,
+                'user_avatar' => $log->user->avatar,
                 'state' => $log->user->state->name,
                 'points' => $log->amount
             ]);
