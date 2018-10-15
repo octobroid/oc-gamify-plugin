@@ -1,6 +1,7 @@
 <?php namespace Octobro\Gamify\Models;
 
 use Model;
+use Carbon\Carbon;
 use Octobro\Gamify\Models\Achievement;
 
 /**
@@ -51,7 +52,9 @@ class Mission extends Model
         if ($mission->type == 'daily') {
             $data = Achievement::getDailyMissionData($user->id, $mission->id)->first();
         } else if ($mission->type == 'weekly') {
-            $data = Achievement::getWeeklyMissionData($user->id, $mission->id)->first();
+            $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
+            $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
+            $data = Achievement::getWeeklyMissionData($user->id, $mission->id, $startDate, $endDate)->first();
         } else {
             $data = Achievement::getOneTimeMissionData($user->id, $mission->id)->first();
         }
