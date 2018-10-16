@@ -3,6 +3,7 @@
 use Backend;
 use System\Classes\PluginBase;
 use RainLab\User\Models\User;
+use RainLab\User\Models\PointLog;
 
 /**
  * Gamify Plugin Information File
@@ -74,5 +75,16 @@ class Plugin extends PluginBase
                 ]
             ],
         ];
+    }
+
+    public function registerSchedule($schedule)
+    {
+        $schedule->call(function () {
+            PointLog::setWeeklyLeaderboard();
+        })->weekly()->mondays()->at('00:00');
+
+        $schedule->call(function () {
+            PointLog::setMonthlyLeaderboard();
+        })->cron('* * 1 * *');
     }
 }
