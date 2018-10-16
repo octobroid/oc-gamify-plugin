@@ -3,6 +3,7 @@
 use Model;
 use Db;
 use Carbon\Carbon;
+use RainLab\User\Models\User;
 use Octobro\Gamify\Models\LeaderboardLog as Leaderboard;
 
 /**
@@ -48,16 +49,16 @@ class PointLog extends Model
         $this->updated_amount = $this->previous_amount + $this->amount;
     }
 
-    private static function setLeaderboardArray($data) {
+    private static function setLeaderboardArray($data, $type) {
         $dataArray = array();
         $count = 1;
-        foreach($data as $log) {
+        foreach($data as $user) {
             array_push($dataArray, [
                 'rank' => $count,
-                'name' => $log->user->name,
-                'user_avatar' => $log->user->avatar,
-                'state' => $log->user->state->name,
-                'points' => $log->amount
+                'name' => $user->name,
+                'user_avatar' => $user->avatar,
+                'state' => $user->state->name,
+                'points' => $user->{$type}
             ]);
             $count++;
         }
@@ -67,9 +68,9 @@ class PointLog extends Model
     public static function setWeeklyLeaderboard() {
         $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
         $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
-        $data = self::whereBetween('created_at', [$startDate, $endDate])->select('user_id', Db::raw('SUM(amount) as amount'))->groupBy('user_id')->orderBy('amount', 'desc')->take(100)->get();
+        $data = User::orderBy('this_week_points', 'desc')->take(100)->get();
 
-        $dataArray = self::setLeaderboardArray($data);
+        $dataArray = self::setLeaderboardArray($data, 'this_week_points');
 
         $leaderboard = Leaderboard::whereBetween('date', [$startDate, $endDate])->first();
 
@@ -84,14 +85,18 @@ class PointLog extends Model
             $leaderboardData->data = json_encode($dataArray);
             $leaderboardData->save();
         }
+
+        User::query()->update([
+            'this_week_points' => 0
+        ]);
     }
 
     public static function setMonthlyLeaderboard() {
         $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
         $endDate = Carbon::now()->endOfMonth()->format('Y-m-d');
-        $data = self::whereBetween('created_at', [$startDate, $endDate])->select('user_id', Db::raw('SUM(amount) as amount'))->groupBy('user_id')->orderBy('amount', 'desc')->take(100)->get();
+        $data = User::orderBy('this_month_points', 'desc')->take(100)->get();
 
-        $dataArray = self::setLeaderboardArray($data);
+        $dataArray = self::setLeaderboardArray($data, 'this_month_points');
 
         $leaderboard = Leaderboard::whereBetween('date', [$startDate, $endDate])->first();
 
@@ -106,5 +111,9 @@ class PointLog extends Model
             $leaderboardData->data = json_encode($dataArray);
             $leaderboardData->save();
         }
+
+        User::query()->update([
+            'this_month_points' => 0
+        ]);
     }
 }

@@ -103,10 +103,8 @@ class Achievement extends Model
             'points' => (int) ($user->points + $mission->points),
             'spendable_points' => (int) ($user->spendable_points + $mission->points),
             'points_updated_at' => date('Y-m-d H:i:s'),
+            'this_week_points' => (int) ($user->this_week_points + $mission->points),
+            'this_month_points' => (int) ($user->this_month_points + $mission->points)
         ]);
-
-        // Reset leaderboard
-        PointLog::setWeeklyLeaderboard();
-        PointLog::setMonthlyLeaderboard();
     }
 }
