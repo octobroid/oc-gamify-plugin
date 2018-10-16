@@ -6,3 +6,9 @@ columns:
     id:
         label: ID
         searchable: true
+    date:
+        label: Date
+        searchable: true
+    type:
+        label: Type
+        searchable: true

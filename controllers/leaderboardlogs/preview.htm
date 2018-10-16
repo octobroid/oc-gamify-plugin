@@ -1,3 +1,7 @@
+<?php
+    use Carbon\Carbon;
+?>
+
 <?php Block::put('breadcrumb') ?>
     <ul>
         <li><a href="<?= Backend::url('octobro/gamify/leaderboardlogs') ?>">Leaderboard Logs</a></li>
@@ -6,6 +10,24 @@
 <?php Block::endPut() ?>
 
 <?php if (!$this->fatalError): ?>
+
+    <div class="scoreboard">
+        <div data-control="toolbar" data-disposable="">
+            <div class="scoreboard-item title-value">
+                <h4>Leaderboard ID #</h4>
+                <p><?= $leaderboardLog->id ?></p>
+                <p class="description"><?= $leaderboardLog->created_at ?></p>
+            </div>
+            <div class="scoreboard-item title-value">
+                <h4>Type</h4>
+                <p><?= ucfirst($leaderboardLog->type) ?></p>
+            </div>
+            <div class="scoreboard-item title-value">
+                <h4>Period</h4>
+                <p><?= Carbon::parse($leaderboardLog->date)->startOfWeek()->format('d F, Y') ?> - <?= Carbon::parse($leaderboardLog->date)->endOfWeek()->format('d F, Y') ?></p>
+            </div>
+        </div>
+    </div>
 
     <div class="form-preview">
         <?= $this->formRenderPreview() ?>
