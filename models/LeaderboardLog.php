@@ -1,6 +1,7 @@
 <?php namespace Octobro\Gamify\Models;
 
 use Model;
+use Carbon\Carbon;
 
 /**
  * LeaderboardLog Model
@@ -39,4 +40,13 @@ class LeaderboardLog extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
+    public function getPeriodAttribute()
+    {
+        if ($this->type == 'weekly') {
+            return Carbon::parse($this->date)->startOfWeek()->format('d F, Y') . " - " . Carbon::parse($this->date)->endOfWeek()->format('d F, Y');
+        } else {
+            return Carbon::parse($this->date)->startOfMonth()->format('d F, Y') . " - " . Carbon::parse($this->date)->endOfMonth()->format('d F, Y');
+        }
+    }
 }

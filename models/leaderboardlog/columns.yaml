@@ -6,8 +6,8 @@ columns:
     id:
         label: ID
         searchable: true
-    date:
-        label: Date
+    period:
+        label: Period
         searchable: true
     type:
         label: Type

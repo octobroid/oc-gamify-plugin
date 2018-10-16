@@ -24,7 +24,7 @@
             </div>
             <div class="scoreboard-item title-value">
                 <h4>Period</h4>
-                <p><?= Carbon::parse($leaderboardLog->date)->startOfWeek()->format('d F, Y') ?> - <?= Carbon::parse($leaderboardLog->date)->endOfWeek()->format('d F, Y') ?></p>
+                <p><?= $leaderboardLog->period ?></p>
             </div>
         </div>
     </div>
