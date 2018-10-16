@@ -24,7 +24,15 @@
             </div>
             <div class="scoreboard-item title-value">
                 <h4>Period</h4>
-                <p><?= Carbon::parse($leaderboardLog->date)->startOfWeek()->format('d F, Y') ?> - <?= Carbon::parse($leaderboardLog->date)->endOfWeek()->format('d F, Y') ?></p>
+                <p>
+                    <?php
+                        if ($leaderboardLog->type == 'weekly') {
+                            echo Carbon::parse($leaderboardLog->date)->startOfWeek()->format('d F, Y') . " - " . Carbon::parse($leaderboardLog->date)->endOfWeek()->format('d F, Y');
+                        } else {
+                            echo Carbon::parse($leaderboardLog->date)->startOfMonth()->format('d F, Y') . " - " . Carbon::parse($leaderboardLog->date)->endOfMonth()->format('d F, Y');
+                        }
+                    ?>
+                </p>
             </div>
         </div>
     </div>
