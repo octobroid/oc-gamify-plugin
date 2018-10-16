@@ -23,7 +23,9 @@ class GamifyUser extends ExtensionBase
             'points',
             'spendable_points',
             'points_updated_at',
-            'spendable_points_updated_at'
+            'spendable_points_updated_at',
+            'this_week_points',
+            'this_month_points'
         ]);
 
         $model->belongsTo['level'] = 'Octobro\Gamify\Models\Level';
@@ -34,7 +36,7 @@ class GamifyUser extends ExtensionBase
 
     public function getRank()
     {
-        return User::where('points', '>', $this->model->points)->count() + 1;
+        return User::where('this_week_points', '>', $this->model->this_week_points)->count() + 1;
     }
 
 }
