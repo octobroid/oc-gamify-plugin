@@ -14,6 +14,9 @@ columns:
     type:
         label: Type
         searchable: true
+    code:
+        label: Code
+        searchable: true
     target:
         label: target
         searchable: true
