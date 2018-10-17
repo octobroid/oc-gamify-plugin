@@ -23,6 +23,10 @@ fields:
         label: Target
         type: number
         span: auto
+    code:
+        label: Code
+        type: text
+        span: auto
     class:
         label: Class
         type: text

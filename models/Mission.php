@@ -14,7 +14,7 @@ class Mission extends Model
     public $rules = [
         'name'                  => 'required|between:4,30',
         'points'                => 'required|integer',
-        'class'                 => 'required',
+        'code'                  => 'required',
         'type'                  => 'required|string:daily|weekly|one-time|always',
         'target'                => 'required'
     ];
