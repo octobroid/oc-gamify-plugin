@@ -41,7 +41,7 @@ class GamifyUser extends ExtensionBase
 
     public function getMonthlyRankAttribute()
     {
-        return User::where('this_monthly_points', '>', $this->model->this_month_points)->count() + 1;
+        return User::where('this_month_points', '>', $this->model->this_month_points)->count() + 1;
     }
 
     public function getRankAttribute()
