@@ -34,9 +34,19 @@ class GamifyUser extends ExtensionBase
         $model->hasMany['point_logs'] = 'Octobro\Gamify\Models\PointLog';
     }
 
-    public function getRank()
+    public function getWeeklyRankAttribute()
     {
         return User::where('this_week_points', '>', $this->model->this_week_points)->count() + 1;
+    }
+
+    public function getMonthlyRankAttribute()
+    {
+        return User::where('this_month_points', '>', $this->model->this_month_points)->count() + 1;
+    }
+
+    public function getRankAttribute()
+    {
+        return User::where('points', '>', $this->model->points)->count() + 1;
     }
 
 }
