@@ -4,7 +4,7 @@ use Schema;
 use October\Rain\Database\Schema\Blueprint;
 use October\Rain\Database\Updates\Migration;
 
-class CreateUsersTable extends Migration
+class add_code_column_to_missions_table extends Migration
 {
     public function up()
     {
