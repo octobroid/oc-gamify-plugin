@@ -49,71 +49,23 @@ class PointLog extends Model
         $this->updated_amount = $this->previous_amount + $this->amount;
     }
 
-    private static function setLeaderboardArray($data, $type) {
-        $dataArray = array();
-        $count = 1;
-        foreach($data as $user) {
-            array_push($dataArray, [
-                'rank' => $count,
-                'name' => $user->name,
-                'user_avatar' => $user->avatar ? $user->avatar->getPath() : null,
-                'state' => $user->state ? $user->state->name : null,
-                'points' => $user->{$type}
-            ]);
-            $count++;
-        }
-        return $dataArray;
-    }
+    public static function collectPoint($user, $relatedEvent, $description = null, $amount = 0)
+    {
+        // Create point log
+        $pointLog = new self();
+        $pointLog->user_id = $user->id;
+        $pointLog->description = $description;
+        $pointLog->amount = $relatedEvent->points;
+        $pointLog->related = $relatedEvent;
+        $pointLog->save();
 
-    public static function setWeeklyLeaderboard() {
-        $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
-        $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
-        $data = User::orderBy('this_week_points', 'desc')->take(100)->get();
-
-        $dataArray = self::setLeaderboardArray($data, 'this_week_points');
-
-        $leaderboard = Leaderboard::whereBetween('date', [$startDate, $endDate])->first();
-
-        if ($leaderboard) {
-            $leaderboard->update([
-                'data' => json_encode($dataArray)
-            ]);
-        } else {
-            $leaderboardData = new Leaderboard();
-            $leaderboardData->type = 'weekly';
-            $leaderboardData->date = date('Y-m-d');
-            $leaderboardData->data = json_encode($dataArray);
-            $leaderboardData->save();
-        }
-
-        User::query()->update([
-            'this_week_points' => 0
-        ]);
-    }
-
-    public static function setMonthlyLeaderboard() {
-        $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
-        $endDate = Carbon::now()->endOfMonth()->format('Y-m-d');
-        $data = User::orderBy('this_month_points', 'desc')->take(100)->get();
-
-        $dataArray = self::setLeaderboardArray($data, 'this_month_points');
-
-        $leaderboard = Leaderboard::whereBetween('date', [$startDate, $endDate])->first();
-
-        if ($leaderboard) {
-            $leaderboard->update([
-                'data' => json_encode($dataArray)
-            ]);
-        } else {
-            $leaderboardData = new Leaderboard();
-            $leaderboardData->type = 'monthly';
-            $leaderboardData->date = date('Y-m-d');
-            $leaderboardData->data = json_encode($dataArray);
-            $leaderboardData->save();
-        }
-
-        User::query()->update([
-            'this_month_points' => 0
+        // Update points to user
+        User::find($user->id)->update([
+            'points' => (int) ($user->points + $relatedEvent->points),
+            'spendable_points' => (int) ($user->spendable_points + $relatedEvent->points),
+            'points_updated_at' => date('Y-m-d H:i:s'),
+            'this_week_points' => (int) ($user->this_week_points + $relatedEvent->points),
+            'this_month_points' => (int) ($user->this_month_points + $relatedEvent->points)
         ]);
     }
 }

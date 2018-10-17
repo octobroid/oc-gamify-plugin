@@ -1,8 +1,6 @@
 <?php namespace Octobro\Gamify\Models;
 
 use Model;
-use Carbon\Carbon;
-use Octobro\Gamify\Models\Achievement;
 
 /**
  * Mission Model
@@ -45,36 +43,4 @@ class Mission extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
-
-    public static function achieve($user, $mission)
-    {
-        // Create/update mission progress
-        if ($mission->type == 'daily') {
-            $data = Achievement::getDailyMissionData($user->id, $mission->id)->first();
-        } else if ($mission->type == 'weekly') {
-            $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
-            $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
-            $data = Achievement::getWeeklyMissionData($user->id, $mission->id, $startDate, $endDate)->first();
-        } else {
-            $data = Achievement::getOneTimeMissionData($user->id, $mission->id)->first();
-        }
-
-        if ($data) {
-            if ($data->achieved_count < $mission->target) {
-                Achievement::find($data->id)->update([
-                    'achieved_count' => (int) $data->achieved_count + 1
-                ]);
-            }
-        } else {
-            $achievement = new Achievement();
-            $achievement->user_id = $user->id;
-            $achievement->mission_id = $mission->id;
-            $achievement->mission_type = $mission->type;
-            $achievement->mission_date = date('Y-m-d');
-            $achievement->achieved_count = 1;
-            $achievement->is_achieved = false;
-            $achievement->is_collected = false;
-            $achievement->save();
-        }
-    }
 }

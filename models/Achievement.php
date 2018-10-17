@@ -2,7 +2,6 @@
 
 use Model;
 use Carbon\Carbon;
-use RainLab\User\Models\User;
 use Octobro\Gamify\Models\PointLog;
 use Octobro\Gamify\Models\LevelLog;
 use Octobro\Gamify\Models\Level;
@@ -60,16 +59,48 @@ class Achievement extends Model
         }
     }
 
-    public static function getDailyMissionData($userId, $missionId) {
+    private static function getDailyMissionData($userId, $missionId) {
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'daily')->where('is_achieved', true)->where('mission_date', date('Y-m-d'));
     }
 
-    public static function getWeeklyMissionData($userId, $missionId, $startDate, $endDate) {
+    private static function getWeeklyMissionData($userId, $missionId, $startDate, $endDate) {
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'weekly')->where('is_achieved', true)->whereBetween('mission_date', [$startDate, $endDate]);
     }
 
-    public static function getOneTimeMissionData($userId, $missionId) {
+    private static function getOneTimeMissionData($userId, $missionId) {
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'one_time');
+    }
+
+    public static function achieve($user, $mission)
+    {
+        // Create/update mission progress
+        if ($mission->type == 'daily') {
+            $data = self::getDailyMissionData($user->id, $mission->id)->first();
+        } else if ($mission->type == 'weekly') {
+            $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
+            $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
+            $data = self::getWeeklyMissionData($user->id, $mission->id, $startDate, $endDate)->first();
+        } else {
+            $data = self::getOneTimeMissionData($user->id, $mission->id)->first();
+        }
+
+        if ($data) {
+            if ($data->achieved_count < $mission->target) {
+                self::find($data->id)->update([
+                    'achieved_count' => (int) $data->achieved_count + 1
+                ]);
+            }
+        } else {
+            $achievement = new self();
+            $achievement->user_id = $user->id;
+            $achievement->mission_id = $mission->id;
+            $achievement->mission_type = $mission->type;
+            $achievement->mission_date = date('Y-m-d');
+            $achievement->achieved_count = 1;
+            $achievement->is_achieved = false;
+            $achievement->is_collected = false;
+            $achievement->save();
+        }
     }
 
     public static function collect($user, $mission)
@@ -90,21 +121,6 @@ class Achievement extends Model
             'is_collected' => true
         ]);
 
-        // Create point log
-        $pointLog = new PointLog();
-        $pointLog->user_id = $user->id;
-        $pointLog->description = $mission->name;
-        $pointLog->amount = $mission->points;
-        $pointLog->related = $mission;
-        $pointLog->save();
-
-        // Update points to user
-        User::find($user->id)->update([
-            'points' => (int) ($user->points + $mission->points),
-            'spendable_points' => (int) ($user->spendable_points + $mission->points),
-            'points_updated_at' => date('Y-m-d H:i:s'),
-            'this_week_points' => (int) ($user->this_week_points + $mission->points),
-            'this_month_points' => (int) ($user->this_month_points + $mission->points)
-        ]);
+        PointLog::collectPoint($user, $mission, $mission->name, $mission->points);
     }
 }
