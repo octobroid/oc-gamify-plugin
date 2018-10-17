@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Voucher
+
+# Model Form Field configuration
+form: $/octobro/gamify/models/voucher/fields.yaml
+
+# Model Class name
+modelClass: Octobro\Gamify\Models\Voucher
+
+# Default redirect location
+defaultRedirect: octobro/gamify/vouchers
+
+# Create page
+create:
+    title: Create Voucher
+    redirect: octobro/gamify/vouchers/update/:id
+    redirectClose: octobro/gamify/vouchers
+
+# Update page
+update:
+    title: Edit Voucher
+    redirect: octobro/gamify/vouchers
+    redirectClose: octobro/gamify/vouchers
+
+# Preview page
+preview:
+    title: Preview Voucher

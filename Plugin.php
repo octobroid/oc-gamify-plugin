@@ -72,6 +72,12 @@ class Plugin extends PluginBase
                         'url'         => Backend::url('octobro/gamify/missions'),
                         'permissions' => ['octobro.gamify.*']
                     ],
+                    'vouchers' => [
+                        'label'       => 'Vouchers',
+                        'icon'        => 'icon-ticket',
+                        'url'         => Backend::url('octobro/gamify/vouchers'),
+                        'permissions' => ['octobro.gamify.*']
+                    ],
                 ]
             ],
         ];

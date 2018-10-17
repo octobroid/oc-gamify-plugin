@@ -1,0 +1,17 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    code:
+        label: Code
+        type: text
+        disabled: true
+    points:
+        label: Point
+        type: number
+        span: auto
+    quantity:
+        label: Quantity
+        type: number
+        span: auto

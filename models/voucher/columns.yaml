@@ -1,0 +1,17 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        searchable: true
+    code:
+        label: Code
+        searchable: true
+    points:
+        label: Points
+    quantity:
+        label: Quantity
+    used:
+        label: Used
