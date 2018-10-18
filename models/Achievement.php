@@ -59,15 +59,15 @@ class Achievement extends Model
         }
     }
 
-    private static function getDailyMissionData($userId, $missionId) {
+    public static function getDailyMissionData($userId, $missionId) {
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'daily')->where('mission_date', date('Y-m-d'));
     }
 
-    private static function getWeeklyMissionData($userId, $missionId, $startDate, $endDate) {
+    public static function getWeeklyMissionData($userId, $missionId, $startDate, $endDate) {
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'weekly')->whereBetween('mission_date', [$startDate, $endDate]);
     }
 
-    private static function getOneTimeMissionData($userId, $missionId) {
+    public static function getOneTimeMissionData($userId, $missionId) {
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'one_time');
     }
 
