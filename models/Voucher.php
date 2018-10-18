@@ -26,7 +26,7 @@ class Voucher extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = ['points', 'quantity', 'used'];
 
     /**
      * @var array Relations

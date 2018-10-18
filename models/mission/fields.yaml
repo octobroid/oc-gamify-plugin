@@ -31,4 +31,11 @@ fields:
         label: Class
         type: text
         span: auto
-
+    is_auto_detect:
+        label: Auto detect
+        type: switch
+        span: auto
+    is_auto_collect:
+        label: Auto collect
+        type: switch
+        span: auto
