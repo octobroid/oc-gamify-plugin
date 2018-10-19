@@ -32,6 +32,10 @@ class GamifyUser extends ExtensionBase
         $model->hasMany['achievements'] = 'Octobro\Gamify\Models\Achievement';
         $model->hasMany['level_logs'] = 'Octobro\Gamify\Models\LevelLog';
         $model->hasMany['point_logs'] = 'Octobro\Gamify\Models\PointLog';
+
+        $model->bindEvent('model.beforeCreate', function () use ($model) {
+            $model->level_id = 1;
+        });
     }
 
     public function getWeeklyRankAttribute()
