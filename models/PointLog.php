@@ -49,7 +49,7 @@ class PointLog extends Model
         $this->updated_amount = $this->previous_amount + $this->amount;
     }
 
-    public static function collectPoint($user, $relatedEvent, $description = null, $amount = 0)
+    public static function collectPoint($user, $relatedEvent, $description = null)
     {
         // Create point log
         $pointLog = new self();

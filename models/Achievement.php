@@ -1,6 +1,7 @@
 <?php namespace Octobro\Gamify\Models;
 
 use Model;
+use ApplicationException;
 use Carbon\Carbon;
 use Octobro\Gamify\Models\PointLog;
 use Octobro\Gamify\Models\LevelLog;
@@ -90,7 +91,7 @@ class Achievement extends Model
                     'achieved_count' => (int) $data->achieved_count + 1
                 ]);
             } else {
-                return "You've already completed the mission";
+                throw new ApplicationException('Mission already completed');
             }
         } else {
             $achievement = new self();
@@ -103,7 +104,6 @@ class Achievement extends Model
             $achievement->is_collected = false;
             $achievement->save();
         }
-        return "Mission progress has been made";
     }
 
     public static function collect($user, $mission)
@@ -119,18 +119,26 @@ class Achievement extends Model
             $achievement = self::getOneTimeMissionData($user->id, $mission->id)->first();
         }
 
+        if (!$achievement) {
+            throw new ApplicationException("Mission haven't started");
+        }
+
         if ($achievement->is_collected == true) {
-            return "You've already collected the point";
+            throw new ApplicationException('Points already collected');
         } else if ($achievement->is_collected == false && $achievement->is_achieved == false && $achievement->achieved_count < $mission->target) {
-            return "You haven't completed the mission";
+            throw new ApplicationException("Mission haven't completed");
         } else {
             $achievement->update([
                 'is_collected' => true
             ]);
         }
 
-        PointLog::collectPoint($user, $mission, $mission->name, $mission->points);
+        PointLog::collectPoint($user, $mission, $mission->name);
 
-        return 'Point has been collected';
+        $user->bindEvent('model.afterUpdate', function () use ($model) {
+            if ($model->points >= $user->level->min_points) {
+                Event::fire('user.level.up', [$user]);
+            }
+        });
     }
 }
