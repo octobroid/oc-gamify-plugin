@@ -11,5 +11,5 @@
     - Add code column to missions table
     - add_code_column_to_missions_table.php
 1.0.3:
-    - Add point column to users table
-    - add_point_column_users_table;
+    - Add point columns to users table
+    - add_point_columns_to_users_table.php
