@@ -12,9 +12,9 @@ class Mission extends Model
     public $rules = [
         'name'                  => 'required|between:4,30',
         'points'                => 'required|integer',
-        'code'                  => 'required',
-        'type'                  => 'required|string:daily|weekly|one-time|always',
-        'target'                => 'required'
+        'code'                  => 'required|string',
+        'type'                  => 'required|string',
+        'target'                => 'required|integer'
     ];
     /**
      * @var string The database table used by the model.

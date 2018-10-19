@@ -17,7 +17,8 @@ fields:
         options:
             daily: Daily
             weekly: Weekly
-            one_time: One time
+            one-time: One time
+            always: Always
         span: auto
     target:
         label: Target
