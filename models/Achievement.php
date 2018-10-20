@@ -54,40 +54,46 @@ class Achievement extends Model
 
     public function afterSave()
     {
-        if ($this->mission->target == $this->achieved_count && $this->is_achieved == false) {
+        if (!$this->is_achieved && $this->mission->target <= $this->achieved_count) {
             $this->is_achieved = true;
             $this->save();
         }
     }
 
-    public static function getDailyMissionData($userId, $missionId) {
+    public static function getDailyMissionData($userId, $missionId)
+    {
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'daily')->where('mission_date', date('Y-m-d'));
     }
 
-    public static function getWeeklyMissionData($userId, $missionId, $startDate, $endDate) {
+    public static function getWeeklyMissionData($userId, $missionId)
+    {
+        $startDate = Carbon::now();
+        $endDate = Carbon::now()->endOfWeek();
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'weekly')->whereBetween('mission_date', [$startDate, $endDate]);
     }
 
-    public static function getOneTimeMissionData($userId, $missionId) {
+    public static function getOneTimeMissionData($userId, $missionId)
+    {
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'one_time');
     }
 
     public static function achieve($user, $mission)
     {
         // Create/update mission progress
-        if ($mission->type == 'daily') {
-            $data = self::getDailyMissionData($user->id, $mission->id)->first();
-        } else if ($mission->type == 'weekly') {
-            $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
-            $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
-            $data = self::getWeeklyMissionData($user->id, $mission->id, $startDate, $endDate)->first();
-        } else {
-            $data = self::getOneTimeMissionData($user->id, $mission->id)->first();
+        switch ($mission->type) {
+            case 'daily':
+                $data = self::getDailyMissionData($user->id, $mission->id)->first();
+                break;
+            case 'weekly':
+                $data = self::getWeeklyMissionData($user->id, $mission->id)->first();
+                break;
+            default:
+                $data = self::getOneTimeMissionData($user->id, $mission->id)->first();
         }
 
         if ($data) {
             if ($data->achieved_count < $mission->target) {
-                self::find($data->id)->update([
+                $achievement = self::find($data->id)->update([
                     'achieved_count' => (int) $data->achieved_count + 1
                 ]);
             } else {
@@ -104,19 +110,22 @@ class Achievement extends Model
             $achievement->is_collected = false;
             $achievement->save();
         }
+
+        return $achievement;
     }
 
     public static function collect($user, $mission)
     {
         // Collect point
-        if ($mission->type == 'daily') {
-            $achievement = self::getDailyMissionData($user->id, $mission->id)->first();
-        } else if ($mission->type == 'weekly') {
-            $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
-            $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
-            $achievement = self::getWeeklyMissionData($user->id, $mission->id, $startDate, $endDate)->first();
-        } else {
-            $achievement = self::getOneTimeMissionData($user->id, $mission->id)->first();
+        switch ($mission->type) {
+            case 'daily':
+                $achievement = self::getDailyMissionData($user->id, $mission->id)->first();
+                break;
+            case 'weekly':
+                $achievement = self::getWeeklyMissionData($user->id, $mission->id)->first();
+                break;
+            default:
+                $achievement = self::getOneTimeMissionData($user->id, $mission->id)->first();
         }
 
         if (!$achievement) {
@@ -135,10 +144,6 @@ class Achievement extends Model
 
         PointLog::collectPoint($user, $mission, $mission->name);
 
-        $user->bindEvent('model.afterUpdate', function () use ($model) {
-            if ($model->points >= $user->level->min_points) {
-                Event::fire('user.level.up', [$user]);
-            }
-        });
+        return $achievement;
     }
 }

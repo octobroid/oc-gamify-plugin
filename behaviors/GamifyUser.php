@@ -1,6 +1,7 @@
 <?php namespace Octobro\Gamify\Behaviors;
 
 use RainLab\User\Models\User;
+use Octobro\Gamify\Models\Level;
 use October\Rain\Database\Collection;
 use October\Rain\Extension\ExtensionBase;
 
@@ -32,10 +33,21 @@ class GamifyUser extends ExtensionBase
         $model->hasMany['achievements'] = 'Octobro\Gamify\Models\Achievement';
         $model->hasMany['level_logs'] = 'Octobro\Gamify\Models\LevelLog';
         $model->hasMany['point_logs'] = 'Octobro\Gamify\Models\PointLog';
+    }
 
-        $model->bindEvent('model.beforeCreate', function () use ($model) {
-            $model->level_id = 1;
-        });
+    public function afterCreate()
+    {
+        $this->refreshLevel();
+    }
+
+    public function refreshLevel()
+    {
+        $level = Level::where('min_points', '<=', $this->model->points)->orderBy('min_points', 'desc')->first();
+
+        if ($this->model->level_id != $level->id) {
+            $this->model->level = $level;
+            $this->model->save();
+        }
     }
 
     public function getWeeklyRankAttribute()

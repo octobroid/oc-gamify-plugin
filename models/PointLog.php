@@ -49,6 +49,11 @@ class PointLog extends Model
         $this->updated_amount = $this->previous_amount + $this->amount;
     }
 
+    public function afterSave()
+    {
+        $this->user->refreshLevel();
+    }
+
     public static function collectPoint($user, $relatedEvent, $description = null)
     {
         // Create point log

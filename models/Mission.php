@@ -43,4 +43,18 @@ class Mission extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
+    public function setForUser($user)
+    {
+        switch ($this->type) {
+            case 'daily':
+                $this->user_progress = Achievement::getDailyMissionData($user->id, $this->id)->first();
+                break;
+            case 'weekly':
+                $this->user_progress = Achievement::getWeeklyMissionData($user->id, $this->id)->first();
+                break;
+            default:
+                $this->user_progress = Achievement::getOneTimeMissionData($user->id, $this->id)->first();
+        }
+    }
 }
