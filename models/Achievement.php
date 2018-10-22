@@ -1,11 +1,11 @@
 <?php namespace Octobro\Gamify\Models;
 
+use Db;
 use Model;
-use ApplicationException;
+use Event;
+use Exception;
 use Carbon\Carbon;
-use Octobro\Gamify\Models\PointLog;
-use Octobro\Gamify\Models\LevelLog;
-use Octobro\Gamify\Models\Level;
+use ApplicationException;
 
 /**
  * Achievement Model
@@ -36,6 +36,8 @@ class Achievement extends Model
         'is_collected'
     ];
 
+    public $jsonable = ['data'];
+
     /**
      * @var array Relations
      */
@@ -54,10 +56,57 @@ class Achievement extends Model
 
     public function afterSave()
     {
+        // Is target reached?
         if (!$this->is_achieved && $this->mission->target <= $this->achieved_count) {
             $this->is_achieved = true;
             $this->save();
+
+            // Is auto collect?
+            if ($this->is_auto_collect) {
+                $this->collect();
+            }
         }
+    }
+
+    public function collect()
+    {
+        if ($this->is_collected) throw new ApplicationException('Points already collected.');
+
+        if (!$this->is_achieved && $this->achieved_count < $this->mission->target) {
+            throw new ApplicationException('Mission hasn\'t complete yet');
+        }
+
+        try {
+            Db::beginTransaction();
+            
+            // Extensibility
+            Event::fire('octobro.gamify.mission.beforeCollect', [$this]);
+    
+            $this->is_collected = true;
+            $this->save();
+    
+            PointLog::collectPoint($this->user, $this->mission, $this->mission->name);
+    
+            // Extensibility
+            Event::fire('octobro.gamify.mission.afterCollect', [$this]);
+
+            Db::commit();
+        }
+        catch (Exception $e) {
+            Db::rollBack();
+            throw $e;
+        }
+
+        return $this;
+    }
+
+    public function addData($datum)
+    {
+        if (!$datum) return;
+
+        $data = $this->data ?: [];
+        $data[] = $datum;
+        $this->data = $data;
     }
 
     public static function getDailyMissionData($userId, $missionId)
@@ -67,7 +116,7 @@ class Achievement extends Model
 
     public static function getWeeklyMissionData($userId, $missionId)
     {
-        $startDate = Carbon::now();
+        $startDate = Carbon::now()->startOfWeek();
         $endDate = Carbon::now()->endOfWeek();
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'weekly')->whereBetween('mission_date', [$startDate, $endDate]);
     }
@@ -77,73 +126,4 @@ class Achievement extends Model
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'one_time');
     }
 
-    public static function achieve($user, $mission)
-    {
-        // Create/update mission progress
-        switch ($mission->type) {
-            case 'daily':
-                $data = self::getDailyMissionData($user->id, $mission->id)->first();
-                break;
-            case 'weekly':
-                $data = self::getWeeklyMissionData($user->id, $mission->id)->first();
-                break;
-            default:
-                $data = self::getOneTimeMissionData($user->id, $mission->id)->first();
-        }
-
-        if ($data) {
-            if ($data->achieved_count < $mission->target) {
-                $achievement = self::find($data->id)->update([
-                    'achieved_count' => (int) $data->achieved_count + 1
-                ]);
-            } else {
-                throw new ApplicationException('Mission already completed');
-            }
-        } else {
-            $achievement = new self();
-            $achievement->user_id = $user->id;
-            $achievement->mission_id = $mission->id;
-            $achievement->mission_type = $mission->type;
-            $achievement->mission_date = date('Y-m-d');
-            $achievement->achieved_count = 1;
-            $achievement->is_achieved = false;
-            $achievement->is_collected = false;
-            $achievement->save();
-        }
-
-        return $achievement;
-    }
-
-    public static function collect($user, $mission)
-    {
-        // Collect point
-        switch ($mission->type) {
-            case 'daily':
-                $achievement = self::getDailyMissionData($user->id, $mission->id)->first();
-                break;
-            case 'weekly':
-                $achievement = self::getWeeklyMissionData($user->id, $mission->id)->first();
-                break;
-            default:
-                $achievement = self::getOneTimeMissionData($user->id, $mission->id)->first();
-        }
-
-        if (!$achievement) {
-            throw new ApplicationException("Mission haven't started");
-        }
-
-        if ($achievement->is_collected == true) {
-            throw new ApplicationException('Points already collected');
-        } else if ($achievement->is_collected == false && $achievement->is_achieved == false && $achievement->achieved_count < $mission->target) {
-            throw new ApplicationException("Mission haven't completed");
-        } else {
-            $achievement->update([
-                'is_collected' => true
-            ]);
-        }
-
-        PointLog::collectPoint($user, $mission, $mission->name);
-
-        return $achievement;
-    }
 }
