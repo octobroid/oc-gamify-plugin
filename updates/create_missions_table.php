@@ -16,8 +16,8 @@ class CreateMissionsTable extends Migration
             $table->unsignedInteger('points')->default(0);
             $table->boolean('is_auto_detect')->default(0);
             $table->string('class')->nullable();
-            $table->string('type')->nullable(); // daily, weekly, one-time, always
-            $table->unsignedInteger('target')->default(1);
+            $table->string('type')->nullable(); // daily, weekly, anytime
+            $table->unsignedInteger('target')->nullable();
             $table->boolean('is_auto_collect')->default(0);
             $table->timestamps();
         });
