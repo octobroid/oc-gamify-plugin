@@ -3,7 +3,7 @@
 use Backend;
 use System\Classes\PluginBase;
 use RainLab\User\Models\User;
-use RainLab\User\Models\PointLog;
+use Octobro\Gamify\Models\LeaderboardLog;
 
 /**
  * Gamify Plugin Information File
@@ -86,11 +86,11 @@ class Plugin extends PluginBase
     public function registerSchedule($schedule)
     {
         $schedule->call(function () {
-            PointLog::setWeeklyLeaderboard();
+            LeaderboardLog::setWeeklyLeaderboard();
         })->weekly()->mondays()->at('00:00');
 
         $schedule->call(function () {
-            PointLog::setMonthlyLeaderboard();
+            LeaderboardLog::setMonthlyLeaderboard();
         })->cron('* * 1 * *');
     }
 }
