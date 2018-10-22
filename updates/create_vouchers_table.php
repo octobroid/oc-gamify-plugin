@@ -13,7 +13,7 @@ class CreateVouchersTable extends Migration
             $table->increments('id');
             $table->string('code');
             $table->unsignedInteger('points')->default(0);
-            $table->unsignedInteger('quantity')->default(0);
+            $table->unsignedInteger('quantity')->nullable();
             $table->unsignedInteger('used')->default(0);
             $table->timestamps();
         });

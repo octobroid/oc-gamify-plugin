@@ -10,8 +10,7 @@ class Voucher extends Model
     use \October\Rain\Database\Traits\Validation;
 
     public $rules = [
-        'points'                => 'required|integer',
-        'quantity'              => 'required|integer'
+        'points'                => 'required|integer'
     ];
     /**
      * @var string The database table used by the model.
@@ -43,13 +42,13 @@ class Voucher extends Model
 
     public function beforeCreate()
     {
-        $this->code = $this->generateCode();
+        $this->code = $this->code != null ? strtoupper($this->code) : $this->generateCode();
         $this->used = 0;
     }
 
     private function generateCode()
     {
-        return sprintf('JKW%s-%s-%s', $this->randomChar(6), $this->randomChar(5), $this->randomChar(4));
+        return sprintf('%s', $this->randomChar(12));
     }
 
     private function randomChar($length = 5)

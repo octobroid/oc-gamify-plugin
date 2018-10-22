@@ -6,7 +6,6 @@ fields:
     code:
         label: Code
         type: text
-        disabled: true
     points:
         label: Point
         type: number
@@ -15,3 +14,4 @@ fields:
         label: Quantity
         type: number
         span: auto
+        description: Set max number of times voucher redemptions
