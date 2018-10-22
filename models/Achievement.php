@@ -121,9 +121,9 @@ class Achievement extends Model
         return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'weekly')->whereBetween('mission_date', [$startDate, $endDate]);
     }
 
-    public static function getOneTimeMissionData($userId, $missionId)
+    public static function getAnytimeMissionData($userId, $missionId)
     {
-        return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'one_time');
+        return self::where('user_id', $userId)->where('mission_id', $missionId)->where('mission_type', 'anytime');
     }
 
 }

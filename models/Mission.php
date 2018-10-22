@@ -68,7 +68,7 @@ class Mission extends Model
                 $this->user_progress = Achievement::getWeeklyMissionData($user->id, $this->id)->first();
                 break;
             default:
-                $this->user_progress = Achievement::getOneTimeMissionData($user->id, $this->id)->first();
+                $this->user_progress = Achievement::getAnytimeMissionData($user->id, $this->id)->first();
         }
     }
 
@@ -83,7 +83,7 @@ class Mission extends Model
                 $achievement = Achievement::getWeeklyMissionData($user->id, $this->id)->first();
                 break;
             default:
-                $achievement = Achievement::getOneTimeMissionData($user->id, $this->id)->first();
+                $achievement = Achievement::getAnytimeMissionData($user->id, $this->id)->first();
         }
 
         // If achievement already achieved
