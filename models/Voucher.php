@@ -42,24 +42,31 @@ class Voucher extends Model
 
     public function beforeCreate()
     {
-        $this->code = $this->code != null ? strtoupper($this->code) : $this->generateCode();
         $this->used = 0;
     }
 
-    private function generateCode()
+    public function setCodeAttribute($value)
     {
-        return sprintf('%s', $this->randomChar(12));
+        $value = trim($value);
+
+        $this->attributes['code'] = $value ? strtoupper($value) : $this->generateCode();
     }
 
-    private function randomChar($length = 5)
+    private function generateCode($length = 6)
     {
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $string = '';
+        $characters = '1234567890ABCDEFGHJKLMNPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $code = '';
 
-        for ($i = 0; $i < $length; $i++) {
-            $string .= $characters[rand(0, strlen($characters) - 1)];
+        for ($i = 0; $i < $length; ++$i) {
+            $code .= $characters[rand(0, $charactersLength - 1)];
         }
 
-        return $string;
+        while (static::whereCode($code)->count()) {
+            $code = $this->generateCode();
+        }
+
+        return $code;
     }
+
 }
