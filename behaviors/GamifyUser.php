@@ -60,11 +60,13 @@ class GamifyUser extends ExtensionBase
     {
         if ($this->model->level_id != $newLevel->id) {
 
-            $levelLog                 = new LevelLog;
-            $levelLog->user           = $this->model;
-            $levelLog->previous_level = $this->model->level ?: null;
-            $levelLog->updated_level  = $newLevel;
-            $levelLog->save();
+            if ($this->model->level) {
+                $levelLog                 = new LevelLog;
+                $levelLog->user           = $this->model;
+                $levelLog->previous_level = $this->model->level ?: null;
+                $levelLog->updated_level  = $newLevel;
+                $levelLog->save();
+            }
 
             $this->model->level = $newLevel;
             $this->model->level_updated_at = Carbon::now();
