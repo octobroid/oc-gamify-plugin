@@ -15,3 +15,6 @@ columns:
         label: Quantity
     used:
         label: Used
+    qr:
+        type: partial
+        path: ~/plugins/octobro/gamify/controllers/vouchers/_qr_download_button.htm
