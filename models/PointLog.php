@@ -56,14 +56,6 @@ class PointLog extends Model
 
     public static function collectPoint($user, $relatedEvent, $description = null)
     {
-        // Create point log
-        $pointLog = new self();
-        $pointLog->user_id = $user->id;
-        $pointLog->description = $description;
-        $pointLog->amount = $relatedEvent->points;
-        $pointLog->related = $relatedEvent;
-        $pointLog->save();
-
         // Update points to user
         User::find($user->id)->update([
             'points' => (int) ($user->points + $relatedEvent->points),
@@ -72,5 +64,13 @@ class PointLog extends Model
             'this_week_points' => (int) ($user->this_week_points + $relatedEvent->points),
             'this_month_points' => (int) ($user->this_month_points + $relatedEvent->points)
         ]);
+
+        // Create point log
+        $pointLog = new self();
+        $pointLog->user_id = $user->id;
+        $pointLog->description = $description;
+        $pointLog->amount = $relatedEvent->points;
+        $pointLog->related = $relatedEvent;
+        $pointLog->save();
     }
 }
