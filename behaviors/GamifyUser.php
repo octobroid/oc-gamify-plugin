@@ -1,7 +1,9 @@
 <?php namespace Octobro\Gamify\Behaviors;
 
+use Exception;
 use Carbon\Carbon;
 use RainLab\User\Models\User;
+use Octobro\Gamify\Models\Mission;
 use Octobro\Gamify\Models\Level;
 use Octobro\Gamify\Models\LevelLog;
 use October\Rain\Database\Collection;
@@ -71,6 +73,16 @@ class GamifyUser extends ExtensionBase
             $this->model->level = $newLevel;
             $this->model->level_updated_at = Carbon::now();
             $this->model->save();
+
+            // Get achievement by leveling up
+            // Make loop in case user gets point which passing many levels above
+            for($i = $newLevel->id; $i > 1; $i--) {
+                try {
+                    Mission::whereCode("achieve-level-" . $i)->first()->achieve($this->model, 1, null);
+                } catch(Exception $e) {
+                    continue;
+                }
+            }
         }
 
         return $this->model->level;
