@@ -78,15 +78,15 @@ class Achievement extends Model
 
         try {
             Db::beginTransaction();
-            
+
             // Extensibility
             Event::fire('octobro.gamify.mission.beforeCollect', [$this]);
-    
+
             $this->is_collected = true;
             $this->save();
-    
-            PointLog::collectPoint($this->user, $this->mission, $this->mission->name);
-    
+
+            PointLog::collectPoint($this->user, $this->mission, $this->mission->name, $this->mission->points);
+
             // Extensibility
             Event::fire('octobro.gamify.mission.afterCollect', [$this]);
 
