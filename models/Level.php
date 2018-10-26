@@ -43,5 +43,7 @@ class Level extends Model
     public $attachOne = [
         'icon' => 'System\Models\File'
     ];
-    public $attachMany = [];
+    public $attachMany = [
+        'images' => 'System\Models\File'
+    ];
 }

@@ -15,5 +15,11 @@ fields:
         label: Icon
         type: fileupload
         mode: image
-        imageHeight: 500
-        imageWidth: 500
+        imageHeight: 100
+        imageWidth: 100
+        span: auto
+    images:
+        label: Images
+        type: fileupload
+        mode: image
+        span: auto
