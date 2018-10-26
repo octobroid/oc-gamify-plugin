@@ -1,7 +1,9 @@
 <?php namespace Octobro\Gamify\Models;
 
+use Exception;
 use Model;
 use Carbon\Carbon;
+use Octobro\Gamify\Models\Mission;
 use RainLab\User\Models\User;
 
 /**
@@ -53,16 +55,14 @@ class LeaderboardLog extends Model
 
     private static function setLeaderboardArray($data, $type) {
         $dataArray = array();
-        $count = 1;
         foreach($data as $user) {
             array_push($dataArray, [
-                'rank' => $count,
+                'rank' => $user->{$type . "ly_rank"},
                 'name' => $user->name,
                 'user_avatar' => $user->avatar ? $user->avatar->getPath() : null,
                 'state' => $user->state ? $user->state->name : null,
-                'points' => $user->{$type}
+                'points' => $user->{"this_" . $type . "_points"}
             ]);
-            $count++;
         }
         return $dataArray;
     }
@@ -72,7 +72,20 @@ class LeaderboardLog extends Model
         $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
         $data = User::orderBy('this_week_points', 'desc')->take(100)->get();
 
-        $dataArray = self::setLeaderboardArray($data, 'this_week_points');
+        $rankArray = ["1st", "2nd", "3rd"];
+
+        foreach($data as $user) {
+            Mission::whereCode("weekly-top-100")->first()->achieve($user, 1, null);
+            if (in_array($user->weekly_rank, $rankArray)) {
+                try {
+                    Mission::whereCode("weekly-" . $rankArray[$user->weekly_rank - 1])->first()->achieve($user, 1, null);
+                } catch(Exception $e) {
+                    continue;
+                }
+            }
+        }
+
+        $dataArray = self::setLeaderboardArray($data, 'week');
 
         $leaderboard = self::whereBetween('date', [$startDate, $endDate])->first();
 
@@ -98,7 +111,7 @@ class LeaderboardLog extends Model
         $endDate = Carbon::now()->endOfMonth()->format('Y-m-d');
         $data = User::orderBy('this_month_points', 'desc')->take(100)->get();
 
-        $dataArray = self::setLeaderboardArray($data, 'this_month_points');
+        $dataArray = self::setLeaderboardArray($data, 'month');
 
         $leaderboard = self::whereBetween('date', [$startDate, $endDate])->first();
 
