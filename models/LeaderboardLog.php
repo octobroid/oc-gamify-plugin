@@ -68,8 +68,8 @@ class LeaderboardLog extends Model
     }
 
     public static function setWeeklyLeaderboard() {
-        $startDate = Carbon::now()->startOfWeek()->format('Y-m-d');
-        $endDate = Carbon::now()->endOfWeek()->format('Y-m-d');
+        $startDate = Carbon::yesterday()->startOfWeek()->format('Y-m-d');
+        $endDate = Carbon::yesterday()->endOfWeek()->format('Y-m-d');
         $data = User::orderBy('this_week_points', 'desc')->take(100)->get();
 
         $rankArray = ["1st", "2nd", "3rd"];
@@ -96,7 +96,7 @@ class LeaderboardLog extends Model
         } else {
             $leaderboardData = new self();
             $leaderboardData->type = 'weekly';
-            $leaderboardData->date = date('Y-m-d');
+            $leaderboardData->date = Carbon::yesterday()->startOfWeek()->format('Y-m-d');
             $leaderboardData->data = json_encode($dataArray);
             $leaderboardData->save();
         }
@@ -107,8 +107,8 @@ class LeaderboardLog extends Model
     }
 
     public static function setMonthlyLeaderboard() {
-        $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
-        $endDate = Carbon::now()->endOfMonth()->format('Y-m-d');
+        $startDate = Carbon::yesterday()->startOfMonth()->format('Y-m-d');
+        $endDate = Carbon::yesterday()->endOfMonth()->format('Y-m-d');
         $data = User::orderBy('this_month_points', 'desc')->take(100)->get();
 
         $dataArray = self::setLeaderboardArray($data, 'month');
@@ -122,7 +122,7 @@ class LeaderboardLog extends Model
         } else {
             $leaderboardData = new self();
             $leaderboardData->type = 'monthly';
-            $leaderboardData->date = date('Y-m-d');
+            $leaderboardData->date = Carbon::yesterday()->startOfMonth()->format('Y-m-d');
             $leaderboardData->data = json_encode($dataArray);
             $leaderboardData->save();
         }
