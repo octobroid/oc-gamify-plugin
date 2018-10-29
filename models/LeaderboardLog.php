@@ -70,7 +70,7 @@ class LeaderboardLog extends Model
     public static function setWeeklyLeaderboard() {
         $startDate = Carbon::yesterday()->startOfWeek()->format('Y-m-d');
         $endDate = Carbon::yesterday()->endOfWeek()->format('Y-m-d');
-        $data = User::orderBy('this_week_points', 'desc')->take(100)->get();
+        $data = User::where('this_week_points', '>', 0)->orderBy('this_week_points', 'desc')->take(100)->get();
 
         $rankArray = ["1st", "2nd", "3rd"];
 
@@ -109,7 +109,7 @@ class LeaderboardLog extends Model
     public static function setMonthlyLeaderboard() {
         $startDate = Carbon::yesterday()->startOfMonth()->format('Y-m-d');
         $endDate = Carbon::yesterday()->endOfMonth()->format('Y-m-d');
-        $data = User::orderBy('this_month_points', 'desc')->take(100)->get();
+        $data = User::where('this_month_points', '>', 0)->orderBy('this_month_points', 'desc')->take(100)->get();
 
         $dataArray = self::setLeaderboardArray($data, 'month');
 
