@@ -1,0 +1,25 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        searchable: true
+    image:
+        label: ""
+        type: partial
+        path: $/octobro/gamify/controllers/rewards/_imagethumb.htm
+        width: 40px
+        sortable: false
+    name:
+        label: Product name
+        searchable: true
+    points:
+        label: Price
+    stock:
+        label: Stock
+        default: Infinite
+    created_at:
+        label: Created at
+

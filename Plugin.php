@@ -78,6 +78,12 @@ class Plugin extends PluginBase
                         'url'         => Backend::url('octobro/gamify/vouchers'),
                         'permissions' => ['octobro.gamify.*']
                     ],
+                    'rewards' => [
+                        'label'       => 'Rewards',
+                        'icon'        => 'icon-gift',
+                        'url'         => Backend::url('octobro/gamify/rewards'),
+                        'permissions' => ['octobro.gamify.*']
+                    ],
                 ]
             ],
         ];

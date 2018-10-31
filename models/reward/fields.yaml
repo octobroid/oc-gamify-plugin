@@ -1,0 +1,32 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: Name
+        type: text
+        span: auto
+    points:
+        label: Points
+        type: number
+        span: auto
+    stock:
+        label: Stock
+        type: number
+        placeholder: Empty this field to set infinite stock
+        span: auto
+    min_level:
+        label: Minimum level
+        type: relation
+        emptyOption: -- No minimum level --
+        span: auto
+secondaryTabs:
+    fields:
+        image:
+            label: Image
+            type: fileupload
+            mode: image
+            imageHeight: 260
+            imageWidth: 260
+            tab: Image

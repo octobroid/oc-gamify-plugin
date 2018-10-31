@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Reward
+
+# Model Form Field configuration
+form: $/octobro/gamify/models/reward/fields.yaml
+
+# Model Class name
+modelClass: Octobro\Gamify\Models\Reward
+
+# Default redirect location
+defaultRedirect: octobro/gamify/rewards
+
+# Create page
+create:
+    title: Create Reward
+    redirect: octobro/gamify/rewards/update/:id
+    redirectClose: octobro/gamify/rewards
+
+# Update page
+update:
+    title: Edit Reward
+    redirect: octobro/gamify/rewards
+    redirectClose: octobro/gamify/rewards
+
+# Preview page
+preview:
+    title: Preview Reward

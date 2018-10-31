@@ -8,6 +8,7 @@
     - create_achievements_table.php
     - create_leaderboard_logs_table.php
     - create_vouchers_table.php
+    - create_rewards_table.php
 1.0.2:
     - Add code column to missions table
     - add_code_column_to_missions_table.php
