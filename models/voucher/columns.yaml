@@ -13,6 +13,7 @@ columns:
         label: Points
     quantity:
         label: Quantity
+        default: Infinite
     used:
         label: Used
     qr:

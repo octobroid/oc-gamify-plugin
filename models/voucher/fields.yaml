@@ -13,5 +13,5 @@ fields:
     quantity:
         label: Quantity
         type: number
+        placeholder: Empty this field to set infinite times voucher redemptions
         span: auto
-        description: Set max number of times voucher redemptions
