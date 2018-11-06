@@ -38,8 +38,8 @@ class GamifyUser extends ExtensionBase
         $model->hasMany['level_logs'] = 'Octobro\Gamify\Models\LevelLog';
         $model->hasMany['point_logs'] = 'Octobro\Gamify\Models\PointLog';
 
-        $model->bindEvent('model.afterCreate', function() use ($model) {
-            $model->refreshLevel();
+        $model->bindEvent('model.beforeCreate', function() use ($model) {
+            $model->level = $this->getDefaultLevel();
         });
     }
 
@@ -56,6 +56,11 @@ class GamifyUser extends ExtensionBase
         }
 
         return $this->model->level;
+    }
+
+    protected function getDefaultLevel()
+    {
+        return Level::orderBy('min_points', 'asc')->first();
     }
 
     public function updateLevel(Level $newLevel)
