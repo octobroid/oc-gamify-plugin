@@ -59,6 +59,7 @@ class LeaderboardLog extends Model
             array_push($dataArray, [
                 'rank' => $user->{$type . "ly_rank"},
                 'name' => $user->name,
+                'user_id' => $user->id,
                 'user_avatar' => $user->avatar ? $user->avatar->getPath() : null,
                 'state' => $user->state ? $user->state->name : null,
                 'points' => $user->{"this_" . $type . "_points"}
