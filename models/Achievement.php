@@ -62,7 +62,7 @@ class Achievement extends Model
             $this->save();
 
             // Is auto collect?
-            if ($this->is_auto_collect) {
+            if ($this->mission->is_auto_collect) {
                 $this->collect();
             }
         }
