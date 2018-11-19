@@ -74,20 +74,24 @@ class Mission extends Model
 
     public function achieve(User $user, $count = 1, $data = null)
     {
-        // Find achievement by mission
-        switch ($this->type) {
-            case 'daily':
-                $achievement = Achievement::getDailyMissionData($user->id, $this->id)->first();
-                break;
-            case 'weekly':
-                $achievement = Achievement::getWeeklyMissionData($user->id, $this->id)->first();
-                break;
-            default:
-                $achievement = Achievement::getAnytimeMissionData($user->id, $this->id)->first();
+
+        // If has target
+        if ($this->target > 0) {
+            // Find achievement by mission
+            switch ($this->type) {
+                case 'daily':
+                    $achievement = Achievement::getDailyMissionData($user->id, $this->id)->first();
+                    break;
+                case 'weekly':
+                    $achievement = Achievement::getWeeklyMissionData($user->id, $this->id)->first();
+                    break;
+                default:
+                    $achievement = Achievement::getAnytimeMissionData($user->id, $this->id)->first();
+            }
         }
 
         // If achievement already achieved
-        if ($achievement && $achievement->is_achieved) {
+        if (isset($achievement) && $achievement && $achievement->is_achieved) {
             throw new ApplicationException('Mission already completed');
         }
 
@@ -95,7 +99,7 @@ class Mission extends Model
             Db::beginTransaction();
 
             // If achievement not found, create new one
-            if (!$achievement) {
+            if (!isset($achievement) || !$achievement) {
                 $achievement                 = new Achievement();
                 $achievement->user_id        = $user->id;
                 $achievement->mission_id     = $this->id;
