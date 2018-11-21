@@ -25,15 +25,13 @@
             </thead>
             <tbody>
                 <?php
-                    $count = 1;
                     foreach($pieces as $item) {
                         echo "<tr>";
-                        echo "<td>$count</td>";
+                        echo "<td>$item->rank</td>";
                         echo "<td>$item->name</td>";
                         echo "<td>$item->state</td>";
                         echo "<td>$item->points</td>";
                         echo "</tr>";
-                        $count++;
                     }
                 ?>
             </tbody>
