@@ -5,4 +5,23 @@
 columns:
     id:
         label: ID
+    user:
+        label: User
+        relation: user
+        select: name
+        default: Empty
         searchable: true
+    mission:
+        label: Mission
+        relation: mission
+        select: name
+        searchable: true
+    is_achieved:
+        label: Achieved?
+        type: switch
+    is_collected:
+        label: Collected?
+        type: switch
+    mission_date:
+        label: Date
+        type: date

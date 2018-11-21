@@ -66,6 +66,12 @@ class Plugin extends PluginBase
                         'url'         => Backend::url('octobro/gamify/levels'),
                         'permissions' => ['octobro.gamify.*']
                     ],
+                    'achievements' => [
+                        'label'       => 'Achievement Logs',
+                        'icon'        => 'icon-trophy',
+                        'url'         => Backend::url('octobro/gamify/achievements'),
+                        'permissions' => ['octobro.gamify.*']
+                    ],
                     'missions' => [
                         'label'       => 'Missions',
                         'icon'        => 'icon-check',

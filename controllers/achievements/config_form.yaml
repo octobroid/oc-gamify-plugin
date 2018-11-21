@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Achievement
+
+# Model Form Field configuration
+form: $/octobro/gamify/models/achievement/fields.yaml
+
+# Model Class name
+modelClass: Octobro\Gamify\Models\Achievement
+
+# Default redirect location
+defaultRedirect: octobro/gamify/achievements
+
+# Create page
+create:
+    title: Create Achievement
+    redirect: octobro/gamify/achievements/update/:id
+    redirectClose: octobro/gamify/achievements
+
+# Update page
+update:
+    title: Edit Achievement
+    redirect: octobro/gamify/achievements
+    redirectClose: octobro/gamify/achievements
+
+# Preview page
+preview:
+    title: Preview Achievement
