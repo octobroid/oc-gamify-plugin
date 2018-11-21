@@ -3,3 +3,29 @@
 # ===================================
 
 fields:
+    id:
+        label: ID
+        disabled: true
+    user[name]:
+        label: User
+        span: auto
+        disabled: true
+    mission[name]:
+        label: Mission
+        span: auto
+        disabled: true
+    is_achieved:
+        label: Achieved?
+        type: switch
+        span: auto
+        disabled: true
+    is_collected:
+        label: Collected?
+        type: switch
+        span: auto
+        disabled: true
+    mission_date:
+        label: Date
+        type: datepicker
+        mode: date
+        disabled: true
