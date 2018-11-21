@@ -6,3 +6,27 @@ fields:
     id:
         label: ID
         disabled: true
+        span: auto
+    user[name]:
+        label: User
+        disabled: true
+        span: auto
+    description:
+        label: Description
+        disabled: true
+        span: auto
+    amount:
+        label: Amount
+        span: auto
+        disabled: true
+    previous_amount:
+        label: Previous amount
+        span: auto
+        disabled: true
+    updated_amount:
+        label: Updated amount
+        span: auto
+        disabled: true
+    created_at:
+        label: Created at
+        disabled: true

@@ -5,4 +5,14 @@
 columns:
     id:
         label: ID
+    user:
+        label: User
+        relation: user
+        select: name
         searchable: true
+    description:
+        label: Description
+        searchable: true
+    created_at:
+        label: Created at
+        type: datetime

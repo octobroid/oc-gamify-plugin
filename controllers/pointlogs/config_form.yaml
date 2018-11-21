@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Point Log
+
+# Model Form Field configuration
+form: $/octobro/gamify/models/pointlog/fields.yaml
+
+# Model Class name
+modelClass: Octobro\Gamify\Models\PointLog
+
+# Default redirect location
+defaultRedirect: octobro/gamify/pointlogs
+
+# Create page
+create:
+    title: Create Point Log
+    redirect: octobro/gamify/pointlogs/update/:id
+    redirectClose: octobro/gamify/pointlogs
+
+# Update page
+update:
+    title: Edit Point Log
+    redirect: octobro/gamify/pointlogs
+    redirectClose: octobro/gamify/pointlogs
+
+# Preview page
+preview:
+    title: Preview Point Log
