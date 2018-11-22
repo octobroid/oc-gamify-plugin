@@ -1,8 +1,11 @@
 <?php namespace Octobro\Gamify;
 
+use Yaml;
+use File;
 use Backend;
 use System\Classes\PluginBase;
 use RainLab\User\Models\User;
+use RainLab\User\Controllers\Users as UsersController;
 use Octobro\Gamify\Models\LeaderboardLog;
 
 /**
@@ -36,6 +39,19 @@ class Plugin extends PluginBase
     {
         User::extend(function($model) {
             $model->implement[] = 'Octobro\Gamify\Behaviors\GamifyUser';
+        });
+
+        UsersController::extend(function($controller) {
+            $controller->implement[] = 'Backend.Behaviors.RelationController';
+            $controller->relationConfig = '$/octobro/gamify/controllers/users/relationConfig.yaml';
+        });
+
+        UsersController::extendFormFields(function($form, $model, $context) {
+            if (!$model instanceof User) return;
+            
+            $configFile = __DIR__ .'/config/user_fields.yaml';
+            $config = Yaml::parse(File::get($configFile));
+            $form->addTabFields($config);
         });
     }
 

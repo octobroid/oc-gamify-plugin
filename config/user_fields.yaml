@@ -1,0 +1,18 @@
+level:
+    label: Level
+    span: auto
+    type: relation
+    tab: Gamify
+points:
+    label: Points
+    span: auto
+    type: number
+    tab: Gamify
+point_logs:
+    type: partial
+    path: $/octobro/gamify/controllers/users/_point_logs.htm
+    tab: Point Logs
+achievements:
+    type: partial
+    path: $/octobro/gamify/controllers/users/_achievements.htm
+    tab: Achievements

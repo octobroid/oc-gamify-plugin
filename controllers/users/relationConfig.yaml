@@ -1,0 +1,24 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+achievements:
+    label: Achievements
+    readOnly: true
+    view:
+        list: $/octobro/gamify/models/achievement/columns.yaml
+        recordsPerPage: 10
+    manage:
+        list: $/octobro/gamify/models/achievement/columns.yaml
+        form: $/octobro/gamify/models/achievement/fields.yaml
+        recordsPerPage: 10
+point_logs:
+    label: Point Logs
+    readOnly: true
+    view:
+        list: $/octobro/gamify/models/pointlog/columns.yaml
+        recordsPerPage: 10
+    manage:
+        list: $/octobro/gamify/models/pointlog/columns.yaml
+        form: $/octobro/gamify/models/pointlog/fields.yaml
+        recordsPerPage: 10
