@@ -42,8 +42,23 @@ class Plugin extends PluginBase
         });
 
         UsersController::extend(function($controller) {
-            $controller->implement[] = 'Backend.Behaviors.RelationController';
-            $controller->relationConfig = '$/octobro/gamify/controllers/users/relationConfig.yaml';
+            // Implement behavior if not already implemented
+            if (!in_array('Backend.Behaviors.RelationController', $controller->implement) && !in_array('Backend\Behaviors\RelationController', $controller->implement)) {
+                $controller->implement[] = 'Backend.Behaviors.RelationController';
+            }
+
+            // Define property if not already defined
+            if (!isset($controller->relationConfig)) {
+                $controller->addDynamicProperty('relationConfig');
+            }
+
+            // Splice in configuration safely
+            $myConfigPath = '$/octobro/gamify/controllers/users/relationConfig.yaml';
+
+            $controller->relationConfig = $controller->mergeConfig(
+                $controller->relationConfig,
+                $myConfigPath
+            );
         });
 
         UsersController::extendFormFields(function($form, $model, $context) {
