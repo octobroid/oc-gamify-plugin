@@ -27,7 +27,7 @@ class Vouchers extends Controller
     public function downloadQR($code)
     {
         $qrCode = new QrCode();
-        $decoded = $qrCode->format('png')->merge('\logo.png', .1)->encoding('UTF-8')->size(1000)->generate($code);
+        $decoded = $qrCode->format('png')->merge('/logo.png', .1)->encoding('UTF-8')->size(1000)->generate($code);
         $file = "$code-QRcode.png";
         file_put_contents($file, $decoded);
         if (file_exists($file)) {
