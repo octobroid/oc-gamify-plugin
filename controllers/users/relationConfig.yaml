@@ -22,3 +22,13 @@ point_logs:
         list: $/octobro/gamify/models/pointlog/columns.yaml
         form: $/octobro/gamify/models/pointlog/fields.yaml
         recordsPerPage: 10
+redemption_logs:
+    label: Redemption Logs
+    readOnly: true
+    view:
+        list: $/octobro/gamify/models/redemptionlog/columns.yaml
+        recordsPerPage: 10
+    manage:
+        list: $/octobro/gamify/models/redemptionlog/columns.yaml
+        form: $/octobro/gamify/models/redemptionlog/fields.yaml
+        recordsPerPage: 10

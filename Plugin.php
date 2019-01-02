@@ -127,6 +127,12 @@ class Plugin extends PluginBase
                         'url'         => Backend::url('octobro/gamify/rewards'),
                         'permissions' => ['octobro.gamify.*']
                     ],
+                    'redemptionlogs' => [
+                        'label'       => 'Redemption Logs',
+                        'icon'        => 'icon-history',
+                        'url'         => Backend::url('octobro/gamify/redemptionlogs'),
+                        'permissions' => ['octobro.gamify.*']
+                    ],
                 ]
             ],
         ];

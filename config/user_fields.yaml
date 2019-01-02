@@ -16,3 +16,7 @@ achievements:
     type: partial
     path: $/octobro/gamify/controllers/users/_achievements.htm
     tab: Achievements
+redemption_logs:
+    type: partial
+    path: $/octobro/gamify/controllers/users/_redemption_logs.htm
+    tab: Redemption Logs
