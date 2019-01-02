@@ -1,0 +1,26 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+    user:
+        label: User
+        relation: user
+        select: name
+        searchable: true
+    reward:
+        label: Reward
+        relation: reward
+        select: name
+        searchable: true
+    stock:
+        label: Stock
+        type: number
+    amount:
+        label: Amount
+        type: number
+    created_at:
+        label: Created at
+        type: datetime

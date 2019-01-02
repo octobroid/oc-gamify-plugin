@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Redemption Log
+
+# Model Form Field configuration
+form: $/octobro/gamify/models/redemptionlog/fields.yaml
+
+# Model Class name
+modelClass: Octobro\Gamify\Models\RedemptionLog
+
+# Default redirect location
+defaultRedirect: octobro/gamify/redemptionlogs
+
+# Create page
+create:
+    title: Create Redemption Log
+    redirect: octobro/gamify/redemptionlogs/update/:id
+    redirectClose: octobro/gamify/redemptionlogs
+
+# Update page
+update:
+    title: Edit Redemption Log
+    redirect: octobro/gamify/redemptionlogs
+    redirectClose: octobro/gamify/redemptionlogs
+
+# Preview page
+preview:
+    title: Preview Redemption Log
