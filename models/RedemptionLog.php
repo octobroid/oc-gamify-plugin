@@ -50,10 +50,9 @@ class RedemptionLog extends Model
             'spendable_points_updated_at' => date('Y-m-d H:i:s')
         ]);
 
-        if ($reward->stock != null) {
-            Reward::find($reward->id)->update([
-                'stock' => (int) ($reward->stock - $stock)
-            ]);
+        if (!is_null($reward->stock)) {
+            $reward->stock -= $stock;
+            $reward->save();
         }
 
         // Create redemption log
