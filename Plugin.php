@@ -71,6 +71,18 @@ class Plugin extends PluginBase
     }
 
     /**
+     * Registers any front-end components implemented in this plugin.
+     *
+     * @return array
+     */
+    public function registerComponents()
+    {
+        return [
+            'Octobro\Gamify\Components\Leaderboard'     => 'leaderboard'
+        ];
+    }
+
+    /**
      * Registers back-end navigation items for this plugin.
      *
      * @return array

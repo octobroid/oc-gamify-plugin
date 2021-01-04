@@ -1,0 +1,40 @@
+{% if this.param.type == 'last_week' %}
+    {% set initialActive = 'last_week' %}
+{% elseif this.param.type == 'this_month' %}
+    {% set initialActive = 'this_month' %}
+{% elseif this.param.type == 'all' %}
+    {% set initialActive = 'all' %}
+{% else %}
+    {% set initialActive = 'this_week' %}
+{% endif %}
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link {{ initialActive == 'this_week' ? 'active' }}" id="this-week-tab" data-toggle="tab" href="#this-week" role="tab" aria-controls="this-week" aria-selected="false">This Week</a>
+        <a class="nav-item nav-link {{ initialActive == 'last_week' ? 'active' }}" id="last-week-tab" data-toggle="tab" href="#last-week" role="tab" aria-controls="last-week" aria-selected="false">Last Week</a>
+        <a class="nav-item nav-link {{ initialActive == 'this_month' ? 'active' }}" id="this-month-tab" data-toggle="tab" href="#this-month" role="tab" aria-controls="this-month" aria-selected="false">This Month</a>
+        <a class="nav-item nav-link {{ initialActive == 'all' ? 'active' }}" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false">All</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade {{ initialActive == 'this_week' ? 'show active' }}" id="this-week" role="tabpanel" aria-labelledby="this-week-tab">
+        <div id="this-week">
+            {% partial '@leaderboard-list' leaderboard=leaderboard.this_week type='week' %}
+        </div>
+    </div>
+    <div class="tab-pane fade {{ initialActive == 'last_week' ? 'show active' }}" id="last-week" role="tabpanel" aria-labelledby="last-week-tab">
+        <div id="last-week">
+            {% partial '@leaderboard-list' leaderboard=leaderboard.last_week %}
+        </div>
+    </div>
+    <div class="tab-pane fade {{ initialActive == 'this_month' ? 'show active' }}" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+        <div id="this-week">
+            {% partial '@leaderboard-list' leaderboard=leaderboard.this_month type='month' %}
+        </div>
+    </div>
+    <div class="tab-pane fade {{ initialActive == 'all' ? 'show active' }}" id="all" role="tabpanel" aria-labelledby="all-tab">
+        <div id="this-week">
+            {% partial '@leaderboard-list' leaderboard=leaderboard.all type='all' %}
+        </div>
+    </div>
+</div>

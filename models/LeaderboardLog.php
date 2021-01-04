@@ -1,5 +1,6 @@
 <?php namespace Octobro\Gamify\Models;
 
+use Event;
 use Exception;
 use Model;
 use Carbon\Carbon;
@@ -53,18 +54,23 @@ class LeaderboardLog extends Model
         }
     }
 
+    /**
+     * Set leaderboard array
+     * Could be overriden
+     */
     private static function setLeaderboardArray($data, $type) {
         $dataArray = array();
-        foreach($data as $user) {
+
+        foreach ($data as $user) {
             array_push($dataArray, [
                 'rank' => $user->{$type . "ly_rank"},
                 'name' => $user->name,
-                'user_id' => $user->id,
+                // 'user_id' => $user->id,
                 'user_avatar' => $user->avatar ? $user->avatar->getPath() : null,
-                'state' => $user->state ? $user->state->name : null,
                 'points' => $user->{"this_" . $type . "_points"}
             ]);
         }
+
         return $dataArray;
     }
 
@@ -72,19 +78,6 @@ class LeaderboardLog extends Model
         $startDate = Carbon::yesterday()->startOfWeek()->format('Y-m-d');
         $endDate = Carbon::yesterday()->endOfWeek()->format('Y-m-d');
         $data = User::where('this_week_points', '>', 0)->orderBy('this_week_points', 'desc')->take(100)->get();
-
-        $rankArray = ["1st", "2nd", "3rd"];
-
-        foreach($data as $user) {
-            Mission::whereCode("weekly-top-100")->first()->achieve($user, 1, null);
-            if (in_array($user->weekly_rank, $rankArray)) {
-                try {
-                    Mission::whereCode("weekly-" . $rankArray[$user->weekly_rank - 1])->first()->achieve($user, 1, null);
-                } catch(Exception $e) {
-                    continue;
-                }
-            }
-        }
 
         $dataArray = self::setLeaderboardArray($data, 'week');
 
@@ -105,6 +98,8 @@ class LeaderboardLog extends Model
         User::query()->update([
             'this_week_points' => 0
         ]);
+
+        Event::fire('octobro.gamify.leaderboard.afterSetWeeklyLeaderboard', [$data]);
     }
 
     public static function setMonthlyLeaderboard() {
@@ -131,5 +126,7 @@ class LeaderboardLog extends Model
         User::query()->update([
             'this_month_points' => 0
         ]);
+
+        Event::fire('octobro.gamify.leaderboard.afterSetMonthlyLeaderboard', [$data]);
     }
 }
